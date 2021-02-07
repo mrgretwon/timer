@@ -9,6 +9,7 @@ const Scramble = () => {
     <div className="scramble">
         <KeyboardEventHandler
             handleKeys={['space']}
+            handleEventType={'keyup'}
             onKeyEvent={() => setScramble(createScramble())}
         />
         <span>SCRAMBLE</span>

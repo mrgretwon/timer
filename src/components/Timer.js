@@ -13,8 +13,6 @@ const Timer = () => {
 
     const interval = useRef(null)
 
-    console.log(times)
-
     useEffect(() => {
         if (currentTimeMs >= 1000) {
           setCurrentTimeSec(currentTimeSec + 1);
@@ -31,11 +29,13 @@ const Timer = () => {
         interval.current = setInterval(runTimer, 10);
     };
 
-    const stop = () => {
-      setRunning(false);
-      clearInterval(interval.current);
+    const addNewTime = () => {
         const newTime = formatTime(currentTimeMin, currentTimeSec, currentTimeMs);
         setTimes(times.length === 30 ? [newTime] : times.concat([newTime]))
+    };
+
+    const stop = () => {
+      clearInterval(interval.current);
     };
 
     const runTimer = () => setCurrentTimeMs(prevState => prevState + 10);
@@ -50,13 +50,24 @@ const Timer = () => {
         <div className="timer">
             <KeyboardEventHandler
                 handleKeys={['space']}
-                // handleEventType={'keyup'}
+                handleEventType={'keyup'}
+                onKeyEvent={() => {
+                    if(!running) {
+                        start()
+                    } else {
+                        setRunning(false);
+                        addNewTime()
+                    }
+                }}
+            />
+            <KeyboardEventHandler
+                handleKeys={['space']}
+                handleEventType={'keydown'}
                 onKeyEvent={() => {
                     if(running) {
                         stop()
                     } else {
                         reset()
-                        start()
                     }
                 }}
             />
