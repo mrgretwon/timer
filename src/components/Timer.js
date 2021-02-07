@@ -34,7 +34,8 @@ const Timer = () => {
     const stop = () => {
       setRunning(false);
       clearInterval(interval.current);
-        setTimes(times.concat([formatTime(currentTimeMin, currentTimeSec, currentTimeMs)]))
+        const newTime = formatTime(currentTimeMin, currentTimeSec, currentTimeMs);
+        setTimes(times.length === 30 ? [newTime] : times.concat([newTime]))
     };
 
     const runTimer = () => setCurrentTimeMs(prevState => prevState + 10);
@@ -62,7 +63,6 @@ const Timer = () => {
             <TimesList times={times}/>
             <div className="time">
                 <span className="value">{formatTime(currentTimeMin, currentTimeSec, currentTimeMs)}</span>
-                <span>Press space to run timer</span>
             </div>
         </div>
     );
